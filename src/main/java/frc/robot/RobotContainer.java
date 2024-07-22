@@ -6,7 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CannonShootCommand;
+import frc.robot.commands.DrivetrainCommand;
 import frc.robot.subsystems.CannonManagerSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -18,10 +20,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  public final DrivetrainSubsystem m_drivetrain = new DrivetrainSubsystem(Constants.drivetrainConstants.motorPorts, Constants.drivetrainConstants.motorInverts);
+
   private final CommandXboxController m_driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final CannonManagerSubsystem m_CannonManagerSubsystem = new CannonManagerSubsystem(Constants.cannonConstants.numberOfShooters, Constants.cannonConstants.cannonPorts, Constants.cannonConstants.loadedBarrels);
   private final CannonShootCommand m_CannonShootCommand = new CannonShootCommand(m_CannonManagerSubsystem);
+
 
 
 
@@ -40,6 +44,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain, m_driverController));
     m_driverController.rightTrigger().onTrue(m_CannonShootCommand); //Run the CannonShootCommand when the right trigger is pressed. 
   }
 

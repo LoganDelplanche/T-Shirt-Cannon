@@ -23,4 +23,10 @@ public final class Constants {
     public static final boolean[] loadedBarrels = {true, true, true, 
                                                  true, true, true};
   }
+
+  public static class drivetrainConstants {
+  public static final int[] motorPorts = {0, 1, 2, 3};
+  public static final Boolean[] motorInverts = {true, false}; 
+  }
+
 }
