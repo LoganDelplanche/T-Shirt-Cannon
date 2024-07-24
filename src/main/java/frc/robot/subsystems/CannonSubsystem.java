@@ -17,7 +17,8 @@ public class CannonSubsystem extends SubsystemBase{
         if (loaded){status = 0;} else {status = 2;}//Set status to the status defined by the constants
         m_timer = new Timer();
     }
-
+    
+    @Override
     public void periodic(){
         if (m_timer.hasElapsed(Constants.cannonConstants.waitTime)){
             relay.setVoltage(12.0);
