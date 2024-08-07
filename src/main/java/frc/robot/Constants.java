@@ -16,6 +16,32 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static final class turretConstants {
+    public static final boolean pidEnabled = true;
+    public static final int traverseEncoderPort = 0; //TODO: Set Ports and ID
+    public static final int tiltCANcoderID = 0;
+    public static final int traverseMotorPort = 0;
+    public static final int tiltMotorPort = 1;
+
+    public static final double tiltCANcoderOffset = 0; //TODO: Set Offsets
+    public static final double traverseEncoderOffest = 0;
+
+    public static final double traversekP = 1.0; //TODO: Set traverse PID values
+    public static final double traversekI = 1.0;
+    public static final double traversekD = 1.0;
+
+    public static final double tiltkP = 1.0; //TODO: Set tilt PID values
+    public static final double tiltkI = 1.0;
+    public static final double tiltkD = 1.0;
+
+    public static final double traverseMaxAngle = 45; //Degrees
+    public static final double traverseMinAngle = -45; //Degrees
+
+    public static final double tiltMaxAngle = 45; //Degrees
+    public static final double tiltMinAngle = 0; //Degrees
+  }
+
   public static class cannonConstants {
     public static final double waitTime = 0.25; //The time to keep the solenoid open in seconds
     public static final int numberOfShooters = 6;
@@ -24,9 +50,10 @@ public final class Constants {
                                                  true, true, true};
   }
 
+  
   public static class drivetrainConstants {
-  public static final int[] motorPorts = {0, 1, 2, 3};
-  public static final Boolean[] motorInverts = {true, false}; 
+    public static final int[] motorPorts = {0, 1, 2, 3};
+    public static final Boolean[] motorInverts = {true, false}; 
   }
 
 }
