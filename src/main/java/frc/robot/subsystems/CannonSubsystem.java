@@ -1,42 +1,43 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 
 public class CannonSubsystem extends SubsystemBase{
-    //I don't know if these need to be public but time will tell...
-    public Talon relay;
-    public int status; //0=Loaded, 1=Being Shot, 2=Shot/Empty
-    private Timer m_timer;
+    private Relay m_relay; //This is a spike, but a WPI example for the spike uses "Relay" and there is not "Spike" avalible
+    private Constants.cannonConstants.statusStates m_status; //This is an enum
+    private Timer m_timer; //For 
 
     public CannonSubsystem(int outputPin, boolean loaded) {
-        relay = new Talon(outputPin);
-        if (loaded){status = 0;} else {status = 2;}//Set status to the status defined by the constants
+        m_relay = new Relay(outputPin);
+        if (loaded){m_status = Constants.cannonConstants.statusStates.READYTOSHOOT;} else {m_status = Constants.cannonConstants.statusStates.EMPTY;}//Set status to the status defined by the constants
         m_timer = new Timer();
     }
     
     @Override
     public void periodic(){
         if (m_timer.hasElapsed(Constants.cannonConstants.waitTime)){
-            relay.setVoltage(12.0);
-            status = 2;
+            m_relay.set(Value.kOff);
+            m_status = Constants.cannonConstants.statusStates.EMPTY;
             m_timer.stop();
             m_timer.reset();
         }
     }
 
     public void launchShirt(){
-        if (status == 0){
-            relay.setVoltage(12.0);
-            status = 1;
+        if (m_status == Constants.cannonConstants.statusStates.READYTOSHOOT){
+            m_relay.set(Value.kOn);
+            m_status = Constants.cannonConstants.statusStates.SHOOTING;
+            m_timer.reset(); //I have not been able to figure out if this is needed, I do not know if the 
             m_timer.start();
         }   
     }
 
-    public int getStatus(){return status;} //Returns current status of the cannon
+    public Constants.cannonConstants.statusStates getStatus(){return m_status;} //Returns current status of the cannon
 
-    public void reloadStatus(){status = 0;} //Allows for the reloading of the cannon without resarting the code
+    public void reloadStatus(){m_status = Constants.cannonConstants.statusStates.READYTOSHOOT;} //Allows for the reloading of the cannon without resarting the code
 }

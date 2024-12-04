@@ -57,33 +57,35 @@ public class TurretSubsytem extends SubsystemBase{
         m_traverseMinAngle = Constants.turretConstants.traverseMinAngle;
     }
 
+    /*Get angle functions */
     public double getTraverseAngle(){ return m_traverseEncoder.getAbsolutePosition(); }
     public double getTiltAngle(){ return m_tiltCANcoder.getPosition().getValue(); }
 
     
-    //For setting motor speeds
-    //TODO: Implement reversing out of endstop. 
-    //TODO: Implement velocitys to stop. 
+    /*For setting motor speeds */
+    //TODO: Implement velocitys to stop or just limit the range of motion via softstops. (May not have to be done if the turret is slow enough)
     //TODO: Reformat to look pretty.     
     public void setMotors(double traverse, double tilt){
-        //Tilt
-        if (getTiltAngle()<m_tiltMaxAngle && getTiltAngle() > m_tiltMinAngle){
-            m_tiltMotor.set(tilt); 
-        } else {
-            m_tiltMotor.set(0);
-        }
+        //If the angle is out of bounds and it is reversing or it is within bounds then set motor to requested movement
+        double tiltAngle = getTiltAngle();
+        if (tiltAngle < m_tiltMinAngle && tilt > 0 || 
+            tiltAngle > m_tiltMaxAngle && tilt < 0 ||
+            tiltAngle < m_tiltMaxAngle && tiltAngle > m_tiltMinAngle)            
+            {m_tiltMotor.set(tilt);}
+        else {m_tiltMotor.set(0);}
         m_tiltMotor.feed();
 
-        //Traverse
-        if (getTraverseAngle() < m_traverseMaxAngle && getTraverseAngle() > m_traverseMinAngle){
-            m_traverseMotor.set(traverse);
-        } else {
-            m_traverseMotor.set(0);
-        }
+        //If the angle is out of bounds and it is reversing or it is within bounds then set motor to requested movement
+        double traverseAngle = getTraverseAngle();
+        if (traverseAngle < m_traverseMinAngle && traverse > 0 || 
+            traverseAngle > m_traverseMaxAngle && traverse < 0 ||
+            traverseAngle < m_traverseMaxAngle && traverseAngle > m_traverseMinAngle)            
+            {m_traverseMotor.set(traverse);}
+        else {m_traverseMotor.set(0);}
         m_traverseMotor.feed();
     }
 
-    //For setting the setpoint of the PIDs
+    /*For setting the setpoint of the PIDs */
     public void setSetpoint(double traverse, double tilt){
         traverseSetpoint = traverse;
         if (traverseSetpoint < m_traverseMinAngle){traverseSetpoint = m_traverseMinAngle;}
@@ -94,7 +96,7 @@ public class TurretSubsytem extends SubsystemBase{
         else if (tiltSetpoint > m_tiltMaxAngle){tiltSetpoint = m_tiltMaxAngle;}        
     }
 
-    //For changing the setpoint of the PIDs
+    /*For changing the setpoint of the PIDs */
     public void moveSetpoint(double traverse, double tilt){
         traverseSetpoint = traverseSetpoint + traverse;
         if (traverseSetpoint < m_traverseMinAngle){traverseSetpoint = m_traverseMinAngle;}

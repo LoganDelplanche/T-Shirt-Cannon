@@ -43,9 +43,15 @@ public final class Constants {
   }
 
   public static class cannonConstants {
+    public static enum statusStates{ //Using an enum because it improves readability. 
+      READYTOSHOOT, 
+      SHOOTING, 
+      EMPTY
+    }
+    
     public static final double waitTime = 0.25; //The time to keep the solenoid open in seconds
     public static final int numberOfShooters = 6;
-    public static final int[] cannonPorts = {1, 2, 3, 4, 5, 6, 7, 8};
+    public static final int[] cannonPorts = {1, 2, 3, 4, 5, 6};
     public static final boolean[] loadedBarrels = {true, true, true, 
                                                  true, true, true};
   }
