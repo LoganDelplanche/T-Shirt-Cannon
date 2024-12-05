@@ -7,8 +7,8 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.CannonShootCommand;
 import frc.robot.commands.DrivetrainCommand;
-import frc.robot.commands.TurretControlMotors;
-import frc.robot.commands.TurretMoveSetpoint;
+import frc.robot.commands.TurretControlMotorsCommand;
+import frc.robot.commands.TurretControlMotorsNetworkTablesCommand;
 import frc.robot.subsystems.CannonManagerSubsystem;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.TurretSubsytem;
@@ -28,24 +28,22 @@ public class RobotContainer {
 
   //Declare and set Turret Subsytem and Commands. 
   private final TurretSubsytem m_turretSubsytem = new TurretSubsytem();
-  private final TurretMoveSetpoint m_turretMoveSetpoint = new TurretMoveSetpoint(m_turretSubsytem, m_driverController);
-  private final TurretControlMotors m_turretControlMotors = new TurretControlMotors(m_turretSubsytem, m_driverController);
+  private final TurretControlMotorsNetworkTablesCommand m_TurretControlMotorsNetworkTablesCommand = new TurretControlMotorsNetworkTablesCommand(m_turretSubsytem);
+  private final TurretControlMotorsCommand m_turretControlMotors = new TurretControlMotorsCommand(m_turretSubsytem, m_driverController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     configureBindings();
     
     m_drivetrain.setDefaultCommand(new DrivetrainCommand(m_drivetrain, m_driverController)); //TODO: Figure out which method is better, this method or the below method
-    if (Constants.turretConstants.pidEnabled){
-      m_turretSubsytem.setDefaultCommand(m_turretMoveSetpoint);
-    }else {
-      m_turretSubsytem.setDefaultCommand(m_turretControlMotors);
-    }
+    m_turretSubsytem.setDefaultCommand(m_turretControlMotors);
+    
   }
 
 
   private void configureBindings() {
     m_driverController.rightTrigger().onTrue(m_CannonShootCommand); //Run the CannonShootCommand when the right trigger is pressed. 
+    m_driverController.leftTrigger().onTrue(m_TurretControlMotorsNetworkTablesCommand);
   }
 
   public Command getAutonomousCommand() {return null;}

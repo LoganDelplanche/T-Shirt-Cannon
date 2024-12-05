@@ -18,28 +18,13 @@ public final class Constants {
   }
 
   public static final class turretConstants {
-    public static final boolean pidEnabled = true;
-    public static final int traverseEncoderPort = 0; //TODO: Set Ports and ID
-    public static final int tiltCANcoderID = 0;
     public static final int traverseMotorPort = 0;
     public static final int tiltMotorPort = 1;
 
-    public static final double tiltCANcoderOffset = 0; //TODO: Set Offsets
-    public static final double traverseEncoderOffest = 0;
+    public static final int leftLimitSwitchPort = 0; 
+    public static final int rightLimitSwitchPort = 1;
 
-    public static final double traversekP = 1.0; //TODO: Set traverse PID values
-    public static final double traversekI = 1.0;
-    public static final double traversekD = 1.0;
-
-    public static final double tiltkP = 1.0; //TODO: Set tilt PID values
-    public static final double tiltkI = 1.0;
-    public static final double tiltkD = 1.0;
-
-    public static final double traverseMaxAngle = 45; //Degrees
-    public static final double traverseMinAngle = -45; //Degrees
-
-    public static final double tiltMaxAngle = 45; //Degrees
-    public static final double tiltMinAngle = 0; //Degrees
+    public static final double maximumAgeOfNetworkTableEntry = 0.01;
   }
 
   public static class cannonConstants {
