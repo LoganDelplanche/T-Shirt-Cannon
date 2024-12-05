@@ -50,7 +50,7 @@ public class CannonManagerSubsystem extends SubsystemBase{
         m_barrelsLoadedNetworkTableEntry.setBooleanArray(barrelsLoaded); //Send the array to network tables. 
     }
 
-    //This funtion helps with 
+    //This funtion helps with the "cycleAndShoot" function
     private int getNextBarrel(){
         int nextBarrel = currentShooterIndex + 1;
         if (nextBarrel > m_numOfBarrels){nextBarrel = 0;}
