@@ -19,20 +19,26 @@ public class CannonSubsystem extends SubsystemBase{
     
     @Override
     public void periodic(){
-        if (m_timer.hasElapsed(Constants.cannonConstants.waitTime)){
+
+    }
+
+    public void waitFunction(double waitTime){
+        m_timer.reset();
+        m_timer.start();
+        while(!m_timer.hasElapsed(waitTime)){}
+        m_timer.stop();
+        m_timer.reset();
+    }
+
+    public void closeSelenoid(){
             m_relay.close();
             m_status = Constants.cannonConstants.statusStates.EMPTY;
-            m_timer.stop();
-            m_timer.reset();
         }
-    }
 
     public void launchShirt(){
         if (m_status == Constants.cannonConstants.statusStates.READYTOSHOOT){
             m_relay.set(true);
             m_status = Constants.cannonConstants.statusStates.SHOOTING;
-            m_timer.reset(); //I have not been able to figure out if this is needed, I do not know if the 
-            m_timer.start();
         }   
     }
 

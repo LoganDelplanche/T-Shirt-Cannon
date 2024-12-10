@@ -57,14 +57,19 @@ public class CannonManagerSubsystem extends SubsystemBase{
         return nextBarrel;
     }
 
+    public CannonSubsystem getCannonSubsystem(){
+        return m_shooters[currentShooterIndex];
+    }
+    
+
     //Shoot specific barrel, this ignores if the barrel is empty. 
     public void shootSpecificBarrel(int barrel){m_shooters[barrel].launchShirt(); }
 
     //This function finds the next loaded barrel and fires it, this includes wrapping to the 1st barrel if needed. 
     public void cycleAndShoot() {
         if (m_shooters[currentShooterIndex].getStatus() == Constants.cannonConstants.statusStates.READYTOSHOOT){
-            m_shooters[currentShooterIndex].launchShirt();
             currentShooterIndex = getNextBarrel();
+            m_shooters[currentShooterIndex].launchShirt();
             m_numOfTests = 0;
         } else if (m_numOfTests < m_numOfBarrels){
             currentShooterIndex = getNextBarrel();
